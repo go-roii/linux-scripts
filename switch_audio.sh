@@ -1,4 +1,7 @@
 #!/bin/bash
+# add command below to .bashrc
+### establish default active port
+### echo "LINEOUT" > .ACTIVE_PORT
 
 # set default audio profile to stereo 
 # so that the headphone port becomes available
