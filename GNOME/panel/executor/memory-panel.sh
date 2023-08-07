@@ -16,4 +16,4 @@ INFO+="${TOTAL} GB"
 
 
 # Panel Print
-echo -e "   ${INFO}   "
+echo -e "<span font_family='CozetteVector' size='9pt' line_height='2'> ${INFO} </span><executor.markup.true>"

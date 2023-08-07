@@ -5,4 +5,4 @@
 INFO="$(sensors | awk '/Tctl/' | cut -f2 -d "+" | sed 's/\.[0-9]//g' | xargs)"
 
 # Panel Print
-echo -e "   ${INFO}   "
+echo -e "<span font_family='CozetteVector' size='9pt' line_height='2'> ${INFO} </span><executor.markup.true>"
