@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 # Dependencies: bash>=3.2, coreutils, file, gawk, grep, lm_sensors, sed, xfce4-taskmanager
 
-# Makes the script more portable
-readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# Optional icon to display before the text
-# Insert the absolute path of the icon
-# Recommended size is 24x24 px
-readonly ICON="${DIR}/icons/cpu/chip.png"
+# Panel
+INFO="<txt>$(sensors | awk '/Tctl/' | cut -f2 -d "+" | sed 's/\.[0-9]//g' | xargs)</txt>"
+INFO+="<txtclick>psensor</txtclick>"
 
 # Array of available logical CPUs
 declare -r CPU_ARRAY=($(awk '/MHz/{print $4}' /proc/cpuinfo | cut -f1 -d "."))
@@ -27,19 +23,6 @@ MORE_INFO+="└─ Temperature: $(sensors | awk '/[Cc]ore\ 0/{print $3}')"
 MORE_INFO+="</tool>"
 STDOUT=$(( STDOUT / NUM_OF_CPUS )) # calculate average clock speed
 STDOUT=$(awk '{$1 = $1 / 1024; printf "%.2f%s", $1, " GHz"}' <<< "${STDOUT}")
-
-# Panel
-if [[ $(file -b "${ICON}") =~ PNG|SVG ]]; then
-  INFO="<img>${ICON}</img>"
-  if hash xfce4-taskmanager &> /dev/null; then
-    INFO+="<click>xfce4-taskmanager</click>"
-  fi
-  INFO+="<txt>"
-else
-  INFO="<txt>"
-fi
-INFO+="${STDOUT}"
-INFO+="</txt>"
 
 # Panel Print
 echo -e "${INFO}"
